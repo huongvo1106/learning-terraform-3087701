@@ -46,7 +46,7 @@ module "alb" {
 
   load_balancer_type = "application"
 
-  vpc_id             = module.blog_sg.vpc_id
+  vpc_id             = module.vpc.vpc_id
   subnets            = module.vpc.public_subnets
   security_groups    = [module.blog_sg.security_blog_id]
 
@@ -60,8 +60,8 @@ module "alb" {
           target_id = aws_instance.blog.id
           port = 8080
         }
-      }
     }
+    
   ]
 
   http_tcp_listeners = [
