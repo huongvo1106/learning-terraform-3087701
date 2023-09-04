@@ -60,7 +60,7 @@ module "blog_alb" {
 
   target_groups = [
     {
-      name_prefix      =  "${var.environment.name}."
+      name_prefix      =  "${var.environment.name}-"
       backend_protocol = "HTTP"
       backend_port     = 80
         my_other_target = {
