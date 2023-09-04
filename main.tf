@@ -34,7 +34,7 @@ module "vpc" {
 module "autoscaling" {
   source  = "terraform-aws-modules/autoscaling/aws"
   version = "6.10.0"
-  name    = "blog"
+  name    = "${var.environment.name}.blog"
   min_size = var.min_size
   max_size = var.max_size
 
@@ -50,7 +50,7 @@ module "blog_alb" {
   source  = "terraform-aws-modules/alb/aws"
   version = "~> 8.0"
 
-  name = "blog-alb"
+  name = "${var.environment.name}.blog-alb"
 
   load_balancer_type = "application"
 
@@ -60,7 +60,7 @@ module "blog_alb" {
 
   target_groups = [
     {
-      name_prefix      = "blog"
+      name_prefix      =  ${var.environment.name}
       backend_protocol = "HTTP"
       backend_port     = 80
         my_other_target = {
@@ -79,14 +79,14 @@ module "blog_alb" {
   ]
 
   tags = {
-    Environment = "Dev"
+    Environment = var.environment.name
   }
 }
 
 module "blog_sg" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "5.1.0"
-  name    = "blog"
+  name    = "${var.environment.name}.blog"
 
   vpc_id                = module.vpc.vpc_id
   ingress_rules         = ["http-80-tcp","https-443-tcp"]
